@@ -10,8 +10,8 @@ DATASET_FOLDER = "/workspace/shared-datas/TurkBeyinProjesi/GaziBrains_BIDS/GAZI_
 
 
 # derivatives/segmentation/sub-xx/anat/sub-xx_dseg.nii.gz
-IMAGE_OUTPUT = "./data/imgs/"
-MASK_OUTPUT = "./data/masks/"
+IMAGE_OUTPUT = "../data/imgs/"
+MASK_OUTPUT = "../data/masks/"
 
 VALIDATION_PERCENTAGE = 0.2
 
