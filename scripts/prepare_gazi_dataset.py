@@ -147,7 +147,7 @@ def main():
     data_folders = get_valid_image_folders(image_folder_path)
     mask_folders = get_valid_mask_folders(mask_folder_path)
 
-    for index, data_folder in data_folders:
+    for index, data_folder in enumerate(data_folders):
         flair_imgs, t1w_imgs, t2w_imgs = load_image_from_folder(data_folder)
         base_name = os.path.basename(data_folder)
         parse_images(flair_imgs, t1w_imgs, t2w_imgs, base_name)
