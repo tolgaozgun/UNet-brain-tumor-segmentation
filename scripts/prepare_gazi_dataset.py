@@ -72,10 +72,8 @@ def load_mask_from_folder(folder_path):
 
     return mask_img
     
-parse_counter = 0
 
 def parse_images(flair_imgs, t1w_imgs, t2w_imgs, sub_no):
-    global parse_counter
     parse_counter = 0
 
     assert(t1w_imgs.shape[2] == t2w_imgs.shape[2] == flair_imgs.shape[2])
@@ -101,7 +99,6 @@ def parse_images(flair_imgs, t1w_imgs, t2w_imgs, sub_no):
     print(f"Image for {sub_no} completed. Total count: {parse_counter}")
 
 def parse_masks(mask_imgs, sub_no):
-    global parse_counter
     parse_counter = 0
     no_of_slices = mask_imgs.shape[2]
 
