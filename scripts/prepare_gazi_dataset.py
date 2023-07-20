@@ -99,6 +99,8 @@ def parse_masks(mask_imgs, sub_no):
     for i in range(0, no_of_slices):
         mask_img = mask_imgs[..., i]
 
+        mask_img = rescale_image(mask_img)
+
         img_B_data = Image.fromarray(mask_img)
             # CycleGAN validation dataset
 
