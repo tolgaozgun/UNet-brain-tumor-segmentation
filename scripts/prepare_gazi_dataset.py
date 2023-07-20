@@ -74,8 +74,6 @@ def load_mask_from_folder(folder_path):
     
 
 def parse_images(flair_imgs, t1w_imgs, t2w_imgs, sub_no):
-    parse_counter = 0
-
     assert(t1w_imgs.shape[2] == t2w_imgs.shape[2] == flair_imgs.shape[2])
     no_of_slices = t1w_imgs.shape[2]
 
@@ -95,11 +93,7 @@ def parse_images(flair_imgs, t1w_imgs, t2w_imgs, sub_no):
 
         img_A_data.save(os.path.join(IMAGE_OUTPUT, f"{sub_no}_slice{i}.png"))
 
-    parse_counter += 1
-    print(f"Image for {sub_no} completed. Total count: {parse_counter}")
-
 def parse_masks(mask_imgs, sub_no):
-    parse_counter = 0
     no_of_slices = mask_imgs.shape[2]
 
     for i in range(0, no_of_slices):
@@ -109,10 +103,6 @@ def parse_masks(mask_imgs, sub_no):
             # CycleGAN validation dataset
 
         img_B_data.save(os.path.join(MASK_OUTPUT, f"{sub_no}_slice{i}_mask.png"))
-
-    global parse_counter
-    parse_counter += 1
-    print(f"Mask for {sub_no} completed. Total count: {parse_counter}")
 
 
 def rescale_image(image):
@@ -155,15 +145,17 @@ def main():
     data_folders = get_valid_image_folders(image_folder_path)
     mask_folders = get_valid_mask_folders(mask_folder_path)
 
-    for data_folder in data_folders:
+    for index, data_folder in data_folders:
         flair_imgs, t1w_imgs, t2w_imgs = load_image_from_folder(data_folder)
         base_name = os.path.basename(data_folder)
         parse_images(flair_imgs, t1w_imgs, t2w_imgs, base_name)
+        print(f"Image for {base_name} completed. Total count: {index}")
     
-    for mask_folder in mask_folders: 
+    for index, mask_folder in enumerate(mask_folders): 
         mask_imgs = load_mask_from_folder(mask_folder)
         base_name = os.path.basename(mask_folder)
         parse_masks(mask_imgs, base_name)
+        print(f"Mask for {base_name} completed. Total count: {index}")
 
 
 if __name__ == "__main__":
