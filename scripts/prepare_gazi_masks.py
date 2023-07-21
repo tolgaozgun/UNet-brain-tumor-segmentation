@@ -7,7 +7,7 @@ from sklearn.model_selection import train_test_split
 
 MASKS_DIR = "/Users/tolgaozgun/Downloads/segmentation"
 
-MASK_OUTPUT = "../data/masks/new"
+MASK_OUTPUT = "../data/masks"
 
 if not os.path.exists(MASK_OUTPUT):
     os.makedirs(MASK_OUTPUT)
