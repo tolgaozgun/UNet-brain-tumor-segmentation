@@ -224,7 +224,7 @@ if __name__ == '__main__':
             val_percent=args.val / 100,
             amp=args.amp
         )
-    except torch.cuda.OutOfMemoryError:
+    except RuntimeError as e:
         logging.error('Detected OutOfMemoryError! '
                       'Enabling checkpointing to reduce memory usage, but this slows down training. '
                       'Consider enabling AMP (--amp) for fast and memory efficient training')
