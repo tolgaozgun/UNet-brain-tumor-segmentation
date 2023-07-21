@@ -5,9 +5,14 @@ import numpy as np
 from PIL import Image
 from sklearn.model_selection import train_test_split
 
+# MASKS_DIR = "/Users/tolgaozgun/Downloads/segmentation/"
 MASKS_DIR = "workspace/shared-datas/TurkBeyinProjesi/GaziBrains_BIDS/GAZI_BRAINS_2020/derivatives/segmentation"
 
-MASK_OUTPUT = "../data/masks"
+MASK_OUTPUT = "../data/masks_new"
+
+limit_classes = True
+
+use_four_sequences = False
 
 if not os.path.exists(MASK_OUTPUT):
     os.makedirs(MASK_OUTPUT)
@@ -36,10 +41,57 @@ def parse_masks(mask_imgs, sub_no):
         mask_img = mask_imgs[..., i]
 
         # Print min max of mask_img
-        print(mask_img.min(), mask_img.max())
+        # print(mask_img.min(), mask_img.max())
 
         # mask_img = rescale_image(mask_img)
         mask_img = mask_img.astype(np.uint8)
+
+        if limit_classes:
+
+            if use_four_sequences:
+                # 0,2,3 -> 0 background
+                # 6 -> 5 iskemik
+                # 7 -> 2 peritumor
+                # 8 -> 3 contrast enhanced
+                # 9,21 -> 1 necrosis
+                # 16 -> 6 kavernom
+                # 11,13,14 -> 7 hemorrage
+                # 1,4,5,10,12,15,17,18,19,20,22,23,24 -> 4 roi
+                pass
+            
+            else:
+                # 0,2,3 -> 0 background
+                # 1,10,12,15,17,18,19,20,22,23,24 -> 1 roi
+                # 4 -> 2 lateral
+                # 5 -> 3 third
+                # 6 -> 4 iskemik
+                # 7,8,9,11,13,14,16,21 -> 5 tumor
+                # Use the mapping above to map the number values of mask_img
+                mask_img = np.where(mask_img == 0, 0, mask_img)
+                mask_img = np.where(mask_img == 2, 0, mask_img)
+                mask_img = np.where(mask_img == 3, 0, mask_img)
+                mask_img = np.where(mask_img == 1, 1, mask_img)
+                mask_img = np.where(mask_img == 10, 1, mask_img)
+                mask_img = np.where(mask_img == 12, 1, mask_img)
+                mask_img = np.where(mask_img == 15, 1, mask_img)
+                mask_img = np.where(mask_img == 17, 1, mask_img)
+                mask_img = np.where(mask_img == 18, 1, mask_img)
+                mask_img = np.where(mask_img == 19, 1, mask_img)
+                mask_img = np.where(mask_img == 20, 1, mask_img)
+                mask_img = np.where(mask_img == 22, 1, mask_img)
+                mask_img = np.where(mask_img == 23, 1, mask_img)
+                mask_img = np.where(mask_img == 24, 1, mask_img)
+                mask_img = np.where(mask_img == 4, 2, mask_img)
+                mask_img = np.where(mask_img == 5, 3, mask_img)
+                mask_img = np.where(mask_img == 6, 4, mask_img)
+                mask_img = np.where(mask_img == 7, 5, mask_img)
+                mask_img = np.where(mask_img == 8, 5, mask_img)
+                mask_img = np.where(mask_img == 9, 5, mask_img)
+                mask_img = np.where(mask_img == 11, 5, mask_img)
+                mask_img = np.where(mask_img == 13, 5, mask_img)
+                mask_img = np.where(mask_img == 14, 5, mask_img)
+                mask_img = np.where(mask_img == 16, 5, mask_img)
+                mask_img = np.where(mask_img == 21, 5, mask_img)
 
         # Print min max of mask_img
         print(mask_img.min(), mask_img.max())
