@@ -5,7 +5,7 @@ import numpy as np
 from PIL import Image
 from sklearn.model_selection import train_test_split
 
-MASKS_DIR = "/Users/tolgaozgun/Downloads/segmentation"
+MASKS_DIR = "workspace/shared-datas/TurkBeyinProjesi/GaziBrains_BIDS/GAZI_BRAINS_2020/derivatives/segmentation"
 
 MASK_OUTPUT = "../data/masks"
 
