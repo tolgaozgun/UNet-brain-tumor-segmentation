@@ -215,7 +215,7 @@ if __name__ == '__main__':
 
     model.to(device=device)
     # try:
-    model.use_checkpointing()
+    # model.use_checkpointing()
     train_model(
         model=model,
         epochs=args.epochs,
