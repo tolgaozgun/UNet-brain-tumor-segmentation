@@ -6,13 +6,13 @@ from PIL import Image
 from sklearn.model_selection import train_test_split
 
 # MASKS_DIR = "/Users/tolgaozgun/Downloads/segmentation/"
-MASKS_DIR = "workspace/shared-datas/TurkBeyinProjesi/GaziBrains_BIDS/GAZI_BRAINS_2020/derivatives/segmentation"
+MASKS_DIR = "/workspace/shared-datas/TurkBeyinProjesi/GaziBrains_BIDS/GAZI_BRAINS_2020/derivatives/segmentation"
 
-MASK_OUTPUT = "../data/masks_new"
+MASK_OUTPUT = "../data/masks/"
 
 limit_classes = True
 
-use_four_sequences = False
+use_four_sequences = True
 
 if not os.path.exists(MASK_OUTPUT):
     os.makedirs(MASK_OUTPUT)
@@ -57,6 +57,35 @@ def parse_masks(mask_imgs, sub_no):
                 # 16 -> 6 kavernom
                 # 11,13,14 -> 7 hemorrage
                 # 1,4,5,10,12,15,17,18,19,20,22,23,24 -> 4 roi
+
+                # Use the mapping above to map the number values of mask_img
+                mask_img = np.where(mask_img == 0, 0, mask_img)
+                mask_img = np.where(mask_img == 2, 0, mask_img)
+                mask_img = np.where(mask_img == 3, 0, mask_img)
+                mask_img = np.where(mask_img == 6, 5, mask_img)
+                mask_img = np.where(mask_img == 7, 2, mask_img)
+                mask_img = np.where(mask_img == 8, 3, mask_img)
+                mask_img = np.where(mask_img == 9, 1, mask_img)
+                mask_img = np.where(mask_img == 21, 1, mask_img)
+                mask_img = np.where(mask_img == 16, 6, mask_img)
+                mask_img = np.where(mask_img == 11, 7, mask_img)
+                mask_img = np.where(mask_img == 13, 7, mask_img)
+                mask_img = np.where(mask_img == 14, 7, mask_img)
+                mask_img = np.where(mask_img == 1, 4, mask_img)
+                mask_img = np.where(mask_img == 4, 4, mask_img)
+                mask_img = np.where(mask_img == 5, 4, mask_img)
+                mask_img = np.where(mask_img == 10, 4, mask_img)
+                mask_img = np.where(mask_img == 12, 4, mask_img)
+                mask_img = np.where(mask_img == 15, 4, mask_img)
+                mask_img = np.where(mask_img == 17, 4, mask_img)
+                mask_img = np.where(mask_img == 18, 4, mask_img)
+                mask_img = np.where(mask_img == 19, 4, mask_img)
+                mask_img = np.where(mask_img == 20, 4, mask_img)
+                mask_img = np.where(mask_img == 22, 4, mask_img)
+                mask_img = np.where(mask_img == 23, 4, mask_img)
+                mask_img = np.where(mask_img == 24, 4, mask_img)
+
+
                 pass
             
             else:

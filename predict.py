@@ -24,11 +24,15 @@ def predict_img(net,
 
     with torch.no_grad():
         output = net(img).cpu()
+        print(f"Output's shape: {output.shape}")
         output = F.interpolate(output, (full_img.size[1], full_img.size[0]), mode='bilinear')
         if net.n_classes > 1:
             mask = output.argmax(dim=1)
         else:
             mask = torch.sigmoid(output) > out_threshold
+
+    print(f"Mask[0] shape: {mask[0].shape}")
+    print(f"Mask shape: {mask.shape}")
 
     return mask[0].long().squeeze().numpy()
 
@@ -108,6 +112,7 @@ if __name__ == '__main__':
 
         if not args.no_save:
             out_filename = out_files[i]
+            print(f"Mask's shape: {mask.shape}")
             result = mask_to_image(mask, mask_values)
             result.save(out_filename)
             logging.info(f'Mask saved to {out_filename}')
