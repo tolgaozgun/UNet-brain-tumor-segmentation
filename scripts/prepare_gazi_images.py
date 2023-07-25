@@ -57,7 +57,7 @@ def parse_images(flair_imgs, t1w_imgs, t2w_imgs, sub_no):
         file_name = f"{sub_no}_seq{i}_fake_B.png"
         t1c_path = os.path.join(os.getcwd(), "t1c", file_name)
 
-        if os.path.exists(t1c_path):
+        if not os.path.exists(t1c_path):
             print(f"T1c image does not exist: {t1c_path}")
             continue
 
@@ -70,9 +70,10 @@ def parse_images(flair_imgs, t1w_imgs, t2w_imgs, sub_no):
 
         assert(t1w_img.shape == t2w_img.shape == flair_img.shape)
 
+        # Turn t1c_img into 3d
+        
 
-
-        concatenated_img = np.concatenate([t1w_img[..., np.newaxis], t2w_img[..., np.newaxis], flair_img[..., np.newaxis], t1c_img], axis=-1)
+        concatenated_img = np.concatenate([t1w_img[..., np.newaxis], t2w_img[..., np.newaxis], flair_img[..., np.newaxis], t1c_img[..., np.newaxis]], axis=-1)
 
         concatenated_img = rescale_image(concatenated_img)
 
