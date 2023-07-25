@@ -34,6 +34,8 @@ def load_image_from_folder(folder_path):
 
     return flair_img, t1w_img, t2w_img
 
+def resize_image(image: np.array):
+    return image.resize((256, 256))
 
     
 
@@ -46,15 +48,29 @@ def parse_images(flair_imgs, t1w_imgs, t2w_imgs, sub_no):
         t2w_img = t2w_imgs[..., i]
         flair_img = flair_imgs[..., i]
 
+        # Resize images to 256x256
+        t1w_img = resize_image(t1w_img)
+        t2w_img = resize_image(t2w_img)
+        flair_img = resize_image(flair_img)
+
 
         file_name = f"{sub_no}_seq{i}_fake_B.png"
         t1c_path = os.path.join(os.getcwd(), "t1c", file_name)
 
-        # Load image from t1c_path
-        t1c_img = Image.open(t1c_path)
+        if os.path.exists(t1c_path):
+            print(f"T1c image does not exist: {t1c_path}")
+            continue
 
+        # Load image from t1c_path as grayscale
+        t1c_img = Image.open(t1c_path).convert('L')
+
+        t1c_img = np.asarray(t1c_img)
+
+        t1c_img = rescale_image(t1c_img)
 
         assert(t1w_img.shape == t2w_img.shape == flair_img.shape)
+
+
 
         concatenated_img = np.concatenate([t1w_img[..., np.newaxis], t2w_img[..., np.newaxis], flair_img[..., np.newaxis], t1c_img], axis=-1)
 
