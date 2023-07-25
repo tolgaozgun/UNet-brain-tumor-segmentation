@@ -35,7 +35,7 @@ def load_image_from_folder(folder_path):
     return flair_img, t1w_img, t2w_img
 
 def resize_image(image: np.array):
-    return image.reshape(256, 256)
+    return np.resize(image, (256, 256))
 
     
 
