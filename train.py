@@ -12,7 +12,7 @@ from pathlib import Path
 from torch import optim
 from torch.utils.data import DataLoader, random_split
 from tqdm import tqdm
-
+from sklearn.utils.class_weight import compute_class_weight
 import wandb
 from evaluate import evaluate
 from unet import UNet
@@ -80,7 +80,12 @@ def train_model(
                               lr=learning_rate, weight_decay=weight_decay, momentum=momentum, foreach=True)
     scheduler = optim.lr_scheduler.ReduceLROnPlateau(optimizer, 'max', patience=5)  # goal: maximize Dice score
     grad_scaler = torch.cuda.amp.GradScaler(enabled=amp)
-    criterion = nn.CrossEntropyLoss() if model.n_classes > 1 else nn.BCEWithLogitsLoss()
+
+    class_weights = compute_class_weight('balanced', classes=dataset.mask_values, y=dataset.mask_values)
+    
+    # criterion = nn.CrossEntropyLoss() if model.n_classes > 1 else nn.BCEWithLogitsLoss()
+    criterion = nn.CrossEntropyLoss() if model.n_classes > 1 else nn.CrossEntropyLoss(weight=class_weights)
+
     global_step = 0
 
     # 5. Begin training
